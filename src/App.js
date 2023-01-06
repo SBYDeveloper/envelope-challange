@@ -37,42 +37,44 @@ function App() {
     document.cookie = `drawnEnvelopes=${JSON.stringify(drawnEnvelopes)}`;
   }, [drawnEnvelopes]);
 
-// Load the drawn envelopes from a cookie when the component mounts
-useEffect(() => {
-  const cookies = document.cookie.split(';');
-  const drawnEnvelopesCookie = cookies.find((c) => c.trim().startsWith('drawnEnvelopes='));
-  if (drawnEnvelopesCookie) {
-    setDrawnEnvelopes(JSON.parse(drawnEnvelopesCookie.split('=')[1]));
-  }
-}, []);
+  // Load the drawn envelopes from a cookie when the component mounts
+  useEffect(() => {
+    const cookies = document.cookie.split(';');
+    const drawnEnvelopesCookie = cookies.find((c) => c.trim().startsWith('drawnEnvelopes='));
+    if (drawnEnvelopesCookie) {
+      setDrawnEnvelopes(JSON.parse(drawnEnvelopesCookie.split('=')[1]));
+    }
+  }, []);
 
-// Calculate the sum of the drawn envelopes
-const sum = drawnEnvelopes.reduce((total, value) => total + value, 0);
+  // Calculate the sum of the drawn envelopes
+  const sum = drawnEnvelopes.reduce((total, value) => total + value, 0);
 
-// Render the game interface
-return (
-  <Container>
-    <Row className="mt-5">
-      <Col className="text-center">
-      <div className="envelope">
-    <div className="paper">
-      {currentEnvelope ? (
-        <p>Today's envelope: {currentEnvelope}</p>
-      ) : (
-        <p>No more envelopes!</p>
-      )}
-    </div>
-  </div>
-   <div className='mt-10 mb-10'>
-        <Button variant="success" className="mr-10" onClick={drawEnvelope}>Draw Envelope</Button>
-        <Button variant="danger" className="ml-10" onClick={setupGame}>Reset Game</Button>
-        </div>
-        <p className='d-none'>Drawn envelopes: {drawnEnvelopes.join(', ')}</p>
-        <p>You should have saved: <b>{sum}</b> from the envelope challange</p>
-      </Col>
-    </Row>
-  </Container>
-);
+  // Render the game interface
+  return (
+    <Container>
+      <Row className="mt-5">
+        <Col className="text-center">
+          <div className="envelope">
+            <div className="paper">
+              {currentEnvelope ? (
+                <>
+                  <p>Today's envelope: <br/> <b>{currentEnvelope}</b> <br/><small>Add <b>{currentEnvelope}</b> to your savings</small></p>
+                </>
+              ) : (
+                <p>No more envelopes!</p>
+              )}
+            </div>
+          </div>
+          <div className='mt-10 mb-10'>
+            <Button variant="danger" className="mr-10" onClick={setupGame}>Start Challange</Button>
+            <Button variant="success" className="ml-10" onClick={drawEnvelope}>Draw Envelope</Button>
+          </div>
+          <p className='d-none'>Drawn envelopes: {drawnEnvelopes.join(', ')}</p>
+          <p>You should have saved: <b>{sum}</b> from the envelope challange</p>
+        </Col>
+      </Row>
+    </Container>
+  );
 }
 
 export default App;
